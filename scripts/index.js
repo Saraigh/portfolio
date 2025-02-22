@@ -1,8 +1,13 @@
+const env = {
+    local: '/const/',
+    production: '/portfolio/const/'
+}
 const languages = {
     es: {},
     en: {},
 }
 
+let path = 'local'
 let lang = 'es'
 
 const updatePageLang = () => {
@@ -18,7 +23,11 @@ const updatePageLang = () => {
 }
 
 const initData = () => {
-    Promise.all(Object.keys(languages).map(lang => fetch(`/const/${lang}.json`)))
+    if (window.location.hostname === 'saraigh.github.io') {
+        path = 'production'
+    }
+    
+    Promise.all(Object.keys(languages).map(lang => fetch(`${env[path]}${lang}.json`)))
         .then(data => {
             return new Promise(async (resolve) => {
                 let response = []
