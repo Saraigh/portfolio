@@ -1,13 +1,11 @@
-const env = {
-    local: '/const/',
-    production: '/portfolio/const/'
-}
+import env from './env.js'
+
+const { ASSETS_URL } = env
 const languages = {
-    es: {},
-    en: {},
+    es: { },
+    en: { },
 }
 
-let path = 'local'
 let lang = 'es'
 
 const updatePageLang = () => {
@@ -22,32 +20,27 @@ const updatePageLang = () => {
     }
 }
 
+const parseJSON = files => new Promise(resolve => {
+    let langs = []
+
+    files.forEach((file, index) => file.json().then((translate) => {
+        langs.push(translate)
+        index === files.length - 1 && resolve(langs)
+    }))
+})
+
+const setLanguages = langs => {
+    Object.keys(languages).forEach((key, index) => languages[key] = langs[index])
+    updatePageLang()   
+}
+
 const initData = () => {
-    if (window.location.hostname === 'saraigh.github.io') {
-        path = 'production'
-    }
-    
-    Promise.all(Object.keys(languages).map(lang => fetch(`${env[path]}${lang}.json`)))
-        .then(data => {
-            return new Promise(async (resolve) => {
-                let response = []
+    const promises = Object.keys(languages).map(lang => fetch(`${ASSETS_URL}/i18n/${lang}.json`))
 
-                for (const langFile of data) {
-                    const file = await langFile.json()
-                    response = [...response, file]
-                }
-
-                resolve(response)
-            })
-        })
-        .then(langs => {
-            Object.keys(languages).forEach((key, index) => {
-                languages[key] = langs[index]
-            })
-
-            updatePageLang()
-        })
-        .catch((e) => console.error('ERR LOAD TRANSLATE'))
+    Promise.all(promises)
+        .then(files => parseJSON(files))
+        .then(langs => setLanguages(langs))
+        .catch(e => console.error('ERR LOAD TRANSLATE'))
 }
 
 const translateButton = document.querySelector('button#translate-button')

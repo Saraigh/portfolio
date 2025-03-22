@@ -25,7 +25,7 @@ header {
     font-size: 0.9rem;
 
     h1 {
-        font-family: 'Open Sans', sans-serif;
+        font-family: "PT Serif", serif;
         color: var(--clr-white);
     }
 
@@ -40,6 +40,10 @@ header {
         background: var(--clr-white);
         cursor: pointer;
         border-radius: 0.25rem;
+
+        span {
+            font-family: "PT Serif", serif;
+        }
     }
 }
 
@@ -59,14 +63,14 @@ main {
     }
 
     span {
-        font-family: 'Open Sans', sans-serif;
+        font-family: "PT Serif", serif;
         font-size: 0.95rem;
         font-weight: 700;
         margin: 2rem 0 0 0;
     }
 
     p {
-        font-family: 'Open Sans', sans-serif;
+        font-family: "PT Serif", serif;
         font-size: 0.95rem;
         font-weight: 400;
         margin: 0.25rem 0 0 0;
@@ -81,7 +85,7 @@ footer {
     padding: 0.75rem 0;
 
     span {
-        font-family: 'Open Sans', sans-serif;
+        font-family: "PT Serif", serif;
         color: var(--clr-main);
     }
 }
